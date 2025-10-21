@@ -4,10 +4,12 @@
 
 #ifndef WIFINETWORKANALYZER_ANALYZER_H
 #define WIFINETWORKANALYZER_ANALYZER_H
+#include "../utils/Types.h"
+
+#endif //WIFINETWORKANALYZER_ANALYZER_H
 
 
 class Analyzer {
-};
-
-
-#endif //WIFINETWORKANALYZER_ANALYZER_H
+public:
+    void analyze(const wifi::netWorkList& networks);
+}
