@@ -8,8 +8,9 @@
 
 #endif //WIFINETWORKANALYZER_ANALYZER_H
 
-
-class Analyzer {
-public:
-    void analyze(const wifi::netWorkList& networks);
+namespace wifi {
+    class Analyzer {
+    public:
+        netWorkList analyze(const wifi::netWorkList &networks);
+    };
 }
