@@ -1,23 +1,52 @@
-//
-// Created by USER on 11.10.2025.
-//
-#include  <iostream>
+#include <iostream>
 #include "Analyzer.h"
-#include <algorithm>
+#include <string>
 
 namespace wifi {
-    netWorkList Analyzer::analyze(const netWorkList &networks) {
-        netWorkList analyzed = networks;
-        int strangest = analyzed[0].signalStrength;
-        std::string strangestSSID = analyzed[0].ssid;
+    std::string Analyzer::analyzeSignal(int strength) {
+        if (strength < -60)
+            return "Сигнал слабкий";
+        else if (strength < -40)
+            return "Сигнал середній";
+        else
+            return "Сигнал сильний";
+    }
 
-        for (const auto &net: analyzed) {
-            if (net.signalStrength > strangest) {
-                strangest = net.signalStrength;
-                strangestSSID = net.ssid;
-            }
+    std::string Analyzer::analyzeChannel(int channel) {
+        return (channel <= 13) ? "2.4GHz" : "5GHz";
+    }
+
+    std::string Analyzer::analyzeEncryption(int encryption) {
+        switch (encryption) {
+            case 1:
+                return "Мережа не захищена!";
+                break;
+            case 2:
+                return "Мережа захищена погано";
+                break;
+            case 3:
+                return "Мережа захищена добре";
+                break;
+            default:
+                return "Невідомо";
         }
-        std::cout << strangest << '-' << strangestSSID << std::endl;
-        return analyzed;
+    }
+
+
+    resultAnalyzeList Analyzer::analyze(const netWorkList &networks) {
+        resultAnalyzeList results;
+
+        for (const auto &network: networks) {
+            resultAnalyze result;
+            result.name = network.ssid;
+            result.macAddress = network.bssid;
+            result.signalStrength = analyzeSignal(network.signalStrength);
+            result.channel = analyzeChannel(result.channel);
+            result.encryption = analyzeEncryption(result.encryption);
+
+            results.push_back(result);
+        }
+
+        return results;
     }
 }

@@ -7,16 +7,15 @@
 
 
 namespace wifi {
-    void ConsoleRenderer::render(const netWorkList& networks) {
+    void ConsoleRenderer::render(const resultAnalyzeList& results) {
         std::cout <<"MOCK DATA"<< std::endl;
-        for (const auto& network : networks) {
-            std::cout <<"<-------------------------->" << std::endl;
-            std::cout <<"SSID:" << network.ssid<< std::endl;
-            std::cout <<"BSIID:" << network.bssid<< std::endl;
-            std::cout <<"Signal:" << network.signalStrength<< std::endl;
-            std::cout <<"Channel:" << network.channel<< std::endl;
-            std::cout <<"Encryption:" << network.encryption<< std::endl;
-            std::cout <<"<-------------------------->" << std::endl;
+        for (const auto& res : results) {
+            std::cout << "SSID: " << res.name << "\n";
+            std::cout << "MAC: " << res.macAddress << "\n";
+            std::cout << "Сигнал: " << res.signalStrength << "\n";
+            std::cout << "Діапазон: " << res.channel << "\n";
+            std::cout << "Безпека: " << res.encryption << "\n";
+            std::cout << "---------------------------\n";
         }
     }
 

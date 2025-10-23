@@ -11,5 +11,14 @@ namespace wifi {
         int encryption;
     };
 
+    struct resultAnalyze {
+        std::string name;
+        std::string macAddress;
+        std::string signalStrength;
+        std::string channel;
+        std::string encryption;
+    };
+
+    using resultAnalyzeList = std::vector<resultAnalyze>;
     using netWorkList = std::vector<wifiNetwork>;
 }

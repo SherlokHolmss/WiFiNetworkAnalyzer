@@ -4,13 +4,20 @@
 
 #ifndef WIFINETWORKANALYZER_ANALYZER_H
 #define WIFINETWORKANALYZER_ANALYZER_H
-#include "../utils/Types.h"
-
 #endif //WIFINETWORKANALYZER_ANALYZER_H
 
+
+#pragma once
+#include "../utils/Types.h"
+#include <string>
 namespace wifi {
     class Analyzer {
     public:
-        netWorkList analyze(const wifi::netWorkList &networks);
+        resultAnalyzeList analyze(const wifi::netWorkList &networks);
+
+    private:
+        std::string analyzeSignal(int strength);
+        std::string analyzeChannel(int channel);
+        std::string analyzeEncryption(int encryption);
     };
 }

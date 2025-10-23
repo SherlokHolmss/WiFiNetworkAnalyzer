@@ -6,13 +6,13 @@
 #define WIFINETWORKANALYZER_CONSOLERENDERER_H
 
 #endif //WIFINETWORKANALYZER_CONSOLERENDERER_H
-
-#include "../utils/Types.h"
 #pragma once
+#include "../utils/Types.h"
+
 
 namespace wifi {
     class ConsoleRenderer {
     public:
-        void render(const netWorkList& networks);
+        void render(const resultAnalyzeList& networks);
     };
 }
