@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int userOption;
+int userOption = 0;
 
 int main() {
     system("chcp 65001");
@@ -18,18 +18,7 @@ int main() {
 
     auto analyzed = analyzer.analyze(networks);
 
-    cout << "Оберіть режим:" << endl;
-    cout << "1.Повне сканування" << endl;
-    cout << "1.Коротке сканування" << endl;
-    cin >> userOption;
-    switch (userOption) {
-        case '1':
-            renderer.fullRender(analyzed);
-        case '2':
-            renderer.shortRender(analyzed);
-        default:
-            renderer.fullRender(analyzed);
-    }
+    wifi::ConsoleRenderer::selectRenderMode();
 
 
     return 0;

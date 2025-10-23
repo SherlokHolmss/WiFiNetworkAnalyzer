@@ -11,4 +11,6 @@ add_executable(WiFiNetworkAnalyzer src/main.cpp
         src/utils/Types.h
         src/scanner/ScannerMock.h
         src/scanner/ScannerMock.cpp
+        src/app/WiFiAnalyzerApp.h
+        src/app/WiFiAnalyzerApp.cpp
 )

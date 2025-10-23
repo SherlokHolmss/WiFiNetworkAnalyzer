@@ -35,14 +35,13 @@ namespace wifi {
 
     resultAnalyzeList Analyzer::analyze(const netWorkList &networks) {
         resultAnalyzeList results;
-
         for (const auto &network: networks) {
             resultAnalyze result;
             result.name = network.ssid;
             result.macAddress = network.bssid;
             result.signalStrength = analyzeSignal(network.signalStrength);
-            result.channel = analyzeChannel(result.channel);
-            result.encryption = analyzeEncryption(result.encryption);
+            result.channel = analyzeChannel(network.channel);
+            result.encryption = analyzeEncryption(network.encryption);
 
             results.push_back(result);
         }
