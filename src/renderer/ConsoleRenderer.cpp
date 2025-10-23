@@ -7,8 +7,18 @@
 
 
 namespace wifi {
-    void ConsoleRenderer::render(const resultAnalyzeList& results) {
-        std::cout <<"MOCK DATA"<< std::endl;
+    void ConsoleRenderer::shortRender(const resultAnalyzeList& results) {
+        std::cout <<"SHORT MOCK DATA"<< std::endl;
+        for (const auto& res : results) {
+            std::cout << "SSID: " << res.name << "\n";
+            std::cout << "Сигнал: " << res.signalStrength << "\n";
+            std::cout << "Безпека: " << res.encryption << "\n";
+            std::cout << "---------------------------\n";
+        }
+    }
+
+    void ConsoleRenderer::fullRender(const resultAnalyzeList& results) {
+        std::cout <<"FULL MOCK DATA"<< std::endl;
         for (const auto& res : results) {
             std::cout << "SSID: " << res.name << "\n";
             std::cout << "MAC: " << res.macAddress << "\n";
