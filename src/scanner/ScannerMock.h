@@ -14,7 +14,7 @@
 
 
 namespace wifi {
-    class ScannerMock : public IScanner {
+    class scannerMock : public IScanner {
     public:
         netWorkList scanNetworks();
     };

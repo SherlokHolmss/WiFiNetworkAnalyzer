@@ -9,13 +9,13 @@
 #include "../scanner/ScannerMock.h"
 
 namespace wifi {
-    WifiAnalyzerApp::WifiAnalyzerApp(IScanner* scanner, Analyzer* analyzer, ConsoleRenderer* renderer)
-            : scanner(scanner), analyzer(analyzer), renderer(renderer) {}
+    WifiAnalyzerApp::WifiAnalyzerApp(IScanner *scanner, Analyzer *analyzer, ConsoleRenderer *renderer)
+        : scanner(scanner), analyzer(analyzer), renderer(renderer) {
+    }
 
     void WifiAnalyzerApp::run() {
         auto networks = scanner->scanNetworks();
         auto analyzed = analyzer->analyze(networks);
-        renderer->selectScannerMode(analyzed);
+        renderer->mainMenu(analyzed);
     }
-
 }

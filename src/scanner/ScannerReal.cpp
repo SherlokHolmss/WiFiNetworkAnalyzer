@@ -7,7 +7,7 @@
 
 namespace wifi {
         netWorkList realScanner::scanNetworks() {
-        std::cout << "Real Scanner test, yet" << std::endl;
+
         return {};
     }
 }

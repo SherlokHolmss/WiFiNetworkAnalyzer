@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     system("chcp 65001");
-    wifi::ScannerMock scanner;
+    wifi::scannerMock scanner;
     wifi::Analyzer analyzer;
     wifi::ConsoleRenderer renderer;
 

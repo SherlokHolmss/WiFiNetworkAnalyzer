@@ -6,7 +6,7 @@
 #include "../analyzer/Analyzer.h"
 #include "../scanner/ScannerMock.h"
 #include "../scanner/ScannerReal.h"
-
+#include <stdlib.h>
 
 namespace wifi {
     void ConsoleRenderer::shortRender(const resultAnalyzeList &results) {
@@ -65,18 +65,39 @@ namespace wifi {
                 selectRenderMode(results);
                 break;
             }
-
             case 2: {
-                realScanner mock;
+                scannerMock mock;
                 auto networks = mock.scanNetworks();
                 selectRenderMode(results);
                 break;
             }
-
             default: {
                 realScanner real;
                 auto networks = real.scanNetworks();
                 selectRenderMode(results);
+                break;
+            }
+        }
+    }
+
+    void ConsoleRenderer::mainMenu(const resultAnalyzeList &networks) {
+        int mode = 0;
+        std::cout << "Головне меню" << std::endl;
+        std::cout << "1.Почати роботу" << std::endl;
+        std::cout << "2.Вийти" << std::endl;
+        std::cin >> mode;
+
+        switch (mode) {
+            case 1: {
+                selectScannerMode(networks);
+                break;
+            }
+            case 2: {
+                std::cout << "Програма закінчила свою роботу!";
+                exit(0);
+            }
+            default: {
+                std::cout << "Виберіть правильну опцію!";
                 break;
             }
         }
