@@ -15,7 +15,6 @@ namespace wifi {
     class WifiAnalyzerApp {
     public:
         void run();
-
         WifiAnalyzerApp(IScanner *scanner, Analyzer *analyzer, ConsoleRenderer *console);
 
     private:

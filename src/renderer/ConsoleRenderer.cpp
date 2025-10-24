@@ -9,6 +9,29 @@
 #include <stdlib.h>
 
 namespace wifi {
+    void ConsoleRenderer::mainMenu(const resultAnalyzeList &networks) {
+        int mode = 0;
+        std::cout << "Головне меню" << std::endl;
+        std::cout << "1.Почати роботу" << std::endl;
+        std::cout << "2.Вийти" << std::endl;
+        std::cin >> mode;
+
+        switch (mode) {
+            case 1: {
+                selectScannerMode(networks);
+                return;
+            }
+            case 2: {
+                std::cout << "Програма закінчила свою роботу!";
+                exit(0);
+            }
+            default: {
+                std::cout << "Виберіть правильну опцію!";
+                break;
+            }
+        }
+    }
+
     void ConsoleRenderer::shortRender(const resultAnalyzeList &results) {
         std::cout << "SHORT MOCK DATA" << std::endl;
         for (const auto &res: results) {
@@ -35,6 +58,7 @@ namespace wifi {
 
     int ConsoleRenderer::selectRenderMode(const resultAnalyzeList &results) {
         int mode = 0;
+
         std::cout << "Оберіть режим:" << std::endl;
         std::cout << "1.Повне сканування" << std::endl;
         std::cout << "2.Коротке сканування" << std::endl;
@@ -42,18 +66,22 @@ namespace wifi {
         switch (mode) {
             case 1:
                 fullRender(results);
-                break;
+                mainMenu(results);
+                return 1;
             case 2:
                 shortRender(results);
-                break;
-            default:
-                fullRender(results);
-                break;
+                mainMenu(results);
+                return 2;
+            default: {
+                std::cout << "Оберіть правельний режим!" << std::endl;
+                selectRenderMode(results);
+            }
         }
     }
 
     int ConsoleRenderer::selectScannerMode(const resultAnalyzeList &results) {
         int mode = 0;
+
         std::cout << "Оберіть режим сканеру" << std::endl;
         std::cout << "1.RealScanner" << std::endl;
         std::cout << "2.MockScanner" << std::endl;
@@ -63,42 +91,17 @@ namespace wifi {
                 realScanner real;
                 auto networks = real.scanNetworks();
                 selectRenderMode(results);
-                break;
+                return 1;
             }
             case 2: {
                 scannerMock mock;
                 auto networks = mock.scanNetworks();
                 selectRenderMode(results);
-                break;
+                return 2;
             }
             default: {
-                realScanner real;
-                auto networks = real.scanNetworks();
-                selectRenderMode(results);
-                break;
-            }
-        }
-    }
-
-    void ConsoleRenderer::mainMenu(const resultAnalyzeList &networks) {
-        int mode = 0;
-        std::cout << "Головне меню" << std::endl;
-        std::cout << "1.Почати роботу" << std::endl;
-        std::cout << "2.Вийти" << std::endl;
-        std::cin >> mode;
-
-        switch (mode) {
-            case 1: {
-                selectScannerMode(networks);
-                break;
-            }
-            case 2: {
-                std::cout << "Програма закінчила свою роботу!";
-                exit(0);
-            }
-            default: {
-                std::cout << "Виберіть правильну опцію!";
-                break;
+                std::cout << "Оберіть правельний режим!" << std::endl;
+                selectScannerMode(results);
             }
         }
     }
