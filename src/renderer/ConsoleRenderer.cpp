@@ -4,6 +4,8 @@
 #include <iostream>
 #include "ConsoleRenderer.h"
 #include "../analyzer/Analyzer.h"
+#include "../scanner/ScannerMock.h"
+#include "../scanner/ScannerReal.h"
 
 
 namespace wifi {
@@ -44,6 +46,39 @@ namespace wifi {
             case 2:
                 shortRender(results);
                 break;
+            default:
+                fullRender(results);
+                break;
+        }
+    }
+
+    int ConsoleRenderer::selectScannerMode(const resultAnalyzeList &results) {
+        int mode = 0;
+        std::cout << "Оберіть режим сканеру" << std::endl;
+        std::cout << "1.RealScanner" << std::endl;
+        std::cout << "2.MockScanner" << std::endl;
+        std::cin >> mode;
+        switch (mode) {
+            case 1: {
+                realScanner real;
+                auto networks = real.scanNetworks();
+                selectRenderMode(results);
+                break;
+            }
+
+            case 2: {
+                realScanner mock;
+                auto networks = mock.scanNetworks();
+                selectRenderMode(results);
+                break;
+            }
+
+            default: {
+                realScanner real;
+                auto networks = real.scanNetworks();
+                selectRenderMode(results);
+                break;
+            }
         }
     }
 }

@@ -13,6 +13,7 @@
 namespace wifi {
     class ConsoleRenderer {
     public:
+        int selectScannerMode(const resultAnalyzeList& networks);
         int selectRenderMode(const resultAnalyzeList& networks);
         void fullRender(const resultAnalyzeList& networks);
         void shortRender(const resultAnalyzeList& networks);
