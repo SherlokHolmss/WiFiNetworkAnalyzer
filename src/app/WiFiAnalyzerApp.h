@@ -13,5 +13,7 @@ namespace wifi {
     class WifiAnalyzerApp {
         public:
         void run();
+        private:
+        void createClasses();
     };
 }

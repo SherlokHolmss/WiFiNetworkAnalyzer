@@ -4,13 +4,17 @@
 
 #ifndef WIFINETWORKANALYZER_SCANNERMOCK_H
 #define WIFINETWORKANALYZER_SCANNERMOCK_H
+#pragma once
+
+#include "IScanner.h"
+#include "../utils/Types.h"
+
 
 #endif //WIFINETWORKANALYZER_SCANNERMOCK_H
 
-#include "../utils/Types.h"
-#pragma once
+
 namespace wifi {
-    class ScannerMock {
+    class ScannerMock : public IScanner {
     public:
         netWorkList scanNetworks();
     };
