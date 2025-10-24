@@ -3,7 +3,8 @@
 #include "scanner/ScannerMock.h"
 #include "analyzer/Analyzer.h"
 #include "renderer/ConsoleRenderer.h"
-#include "string"
+#include "app/WiFiAnalyzerApp.h"
+#include <string>
 
 using namespace std;
 
@@ -11,14 +12,10 @@ int userOption = 0;
 
 int main() {
     system("chcp 65001");
-    wifi::ScannerMock scanner;
-    wifi::Analyzer analyzer;
-    wifi::ConsoleRenderer renderer;
-    auto networks = scanner.scanNetworks();
+    wifi::WifiAnalyzerApp app;
+    app.run();
 
-    auto analyzed = analyzer.analyze(networks);
 
-    wifi::ConsoleRenderer::selectRenderMode();
 
 
     return 0;

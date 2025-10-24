@@ -6,3 +6,12 @@
 #define WIFINETWORKANALYZER_WIFIANALYZERAPP_H
 
 #endif //WIFINETWORKANALYZER_WIFIANALYZERAPP_H
+
+#pragma once
+
+namespace wifi {
+    class WifiAnalyzerApp {
+        public:
+        void run();
+    };
+}

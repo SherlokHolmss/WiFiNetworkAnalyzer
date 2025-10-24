@@ -40,8 +40,10 @@ namespace wifi {
         switch (mode) {
             case 1:
                 fullRender(results);
+                break;
             case 2:
                 shortRender(results);
+                break;
         }
     }
 }
