@@ -1,8 +1,6 @@
 #include <iostream>
 
-#include "scanner/ScannerMock.h"
-#include "analyzer/Analyzer.h"
-#include "renderer/ConsoleRenderer.h"
+
 #include "app/WiFiAnalyzerApp.h"
 #include <string>
 
