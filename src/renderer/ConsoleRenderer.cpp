@@ -6,9 +6,10 @@
 #include "../analyzer/Analyzer.h"
 #include "../scanner/ScannerMock.h"
 #include "../scanner/ScannerReal.h"
-#include <stdlib.h>
+#include "../utils/Logger.h"
 
 namespace wifi {
+    Logger logger;
     void ConsoleRenderer::mainMenu(const resultAnalyzeList &networks) {
         int mode = 0;
         std::cout << "Головне меню" << std::endl;
@@ -73,7 +74,7 @@ namespace wifi {
                 mainMenu(results);
                 return 2;
             default: {
-                std::cout << "Оберіть правельний режим!" << std::endl;
+                logger.warning("Оберіть правельний режим!");
                 selectRenderMode(results);
             }
         }
@@ -100,7 +101,7 @@ namespace wifi {
                 return 2;
             }
             default: {
-                std::cout << "Оберіть правельний режим!" << std::endl;
+                logger.warning("Оберіть правельний режим!");
                 selectScannerMode(results);
             }
         }
