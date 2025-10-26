@@ -1,8 +1,22 @@
 #include <iostream>
 #include "Analyzer.h"
+#include "../utils/Logger.h"
 #include <string>
 
 namespace wifi {
+    std::string Analyzer::getStrongestNetword(const netWorkList &networks) {
+        Logger logger;
+        int strongest = networks[0].signalStrength;
+        std::string strongestSSID = "";
+        for (const auto &network: networks) {
+            if (network.signalStrength > strongest) {
+                strongestSSID = network.ssid;
+            }
+        }
+        logger.info("Найсильніша мережа-");
+        return strongestSSID;
+    }
+
     std::string Analyzer::analyzeSignal(int strength) {
         if (strength < -60)
             return "Сигнал слабкий";

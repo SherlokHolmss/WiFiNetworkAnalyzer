@@ -19,6 +19,6 @@ namespace wifi {
         std::string analyzeSignal(int strength);
         std::string analyzeChannel(int channel);
         std::string analyzeEncryption(int encryption);
-        std::string getStrongestNetword(const wifiNetwork&);
+        std::string getStrongestNetword(const netWorkList &networks);
     };
 }

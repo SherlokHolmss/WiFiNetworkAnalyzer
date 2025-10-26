@@ -55,6 +55,7 @@ namespace wifi {
             std::cout << "Безпека: " << res.encryption << "\n";
             std::cout << "<--------------------------->\n";
         }
+
     }
 
     int ConsoleRenderer::selectRenderMode(const resultAnalyzeList &results) {
