@@ -10,6 +10,7 @@
 #include "../analyzer/Analyzer.h"
 #include "../scanner/IScanner.h"
 #include "../renderer/ConsoleRenderer.h"
+#include "../utils/Logger.h";
 
 namespace wifi {
     class WifiAnalyzerApp {
@@ -21,6 +22,7 @@ namespace wifi {
         IScanner *scanner;
         Analyzer *analyzer;
         ConsoleRenderer *renderer;
+        Logger *logger;
     };
 }
 #endif //WIFINETWORKANALYZER_WIFIANALYZERAPP_H

@@ -1,20 +1,30 @@
-#include <iostream>
 #include "Analyzer.h"
-#include "../utils/Logger.h"
+#include "../app/WiFiAnalyzerApp.h"
 #include <string>
-
+#include <iostream>
 namespace wifi {
-    std::string Analyzer::getStrongestNetword(const netWorkList &networks) {
-        Logger logger;
+    std::string Analyzer::getStrongestNetwork(const wifi::netWorkList &networks) {
+        if (networks.empty()) return "Немає доступних мереж";
         int strongest = networks[0].signalStrength;
-        std::string strongestSSID = "";
+        std::string strongestSSID = networks[0].ssid;
         for (const auto &network: networks) {
             if (network.signalStrength > strongest) {
                 strongestSSID = network.ssid;
             }
         }
-        logger.info("Найсильніша мережа-");
         return strongestSSID;
+    }
+    std::string Analyzer::getMostSecureNetwork(const wifi::netWorkList &networks) {
+        if (networks.empty()) return "Немає доступних мереж";
+        int strongestSecure = networks[0].encryption;
+        std::string strongestSecureSSID = networks[0].ssid;
+        for (const auto &network: networks) {
+            if (network.encryption > strongestSecure) {
+                strongestSecureSSID = network.ssid;
+            }
+        }
+        std::cout << "ASFASFGASF";
+        return strongestSecureSSID;
     }
 
     std::string Analyzer::analyzeSignal(int strength) {
