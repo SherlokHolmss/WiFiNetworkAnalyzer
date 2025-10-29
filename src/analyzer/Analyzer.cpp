@@ -23,7 +23,6 @@ namespace wifi {
                 strongestSecureSSID = network.ssid;
             }
         }
-        std::cout << "ASFASFGASF";
         return strongestSecureSSID;
     }
 

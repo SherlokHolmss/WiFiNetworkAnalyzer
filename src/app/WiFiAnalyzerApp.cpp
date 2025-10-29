@@ -29,24 +29,56 @@ namespace wifi {
 
             switch (mainChoice) {
                 case 1: {
-                    int scannerChoise = renderer->selectScannerMode();
                     netWorkList networks;
 
-                    if (scannerChoise == 1) {
-                        realScanner real;
-                        networks = real.scanNetworks();
-                    } else {
-                        scannerMock mock;
-                        networks = mock.scanNetworks();
+
+
+                    bool scannerChoiceLoop = true;
+                    while (scannerChoiceLoop) {
+                        int scannerChoice = renderer->selectScannerMode();
+                        switch (scannerChoice) {
+                            case 1: {
+                                realScanner real;
+                                networks = real.scanNetworks();
+                                scannerChoiceLoop = false;
+                                break;
+                            }
+                            case 2: {
+                                scannerMock mock;
+                                networks = mock.scanNetworks();
+                                scannerChoiceLoop = false;
+                                break;
+                            }
+                            default: {
+                                logger.warning("Невірний вибір сканеру");
+                                break;
+                            }
+                        }
                     }
+
+
 
                     auto analyzed = analyzer->analyze(networks);
 
-                    int renderChoise = renderer->selectRenderMode();
-                    if (renderChoise == 1) {
-                        renderer->fullRender(analyzed);
-                    } else {
-                        renderer->shortRender(analyzed);
+                    bool renderChoiceLoop = true;
+                    while (renderChoiceLoop) {
+                        int renderChoice = renderer->selectRenderMode();
+                        switch (renderChoice) {
+                            case 1: {
+                                renderer->fullRender(analyzed);
+                                renderChoiceLoop = false;
+                                break;
+                            }
+                            case 2: {
+                                renderer->shortRender(analyzed);
+                                renderChoiceLoop = false;
+                                break;
+                            }
+                            default: {
+                                logger.warning("Невірний вибір рендеру");
+                                break;
+                            }
+                        }
                     }
 
                     bool otherOptions = true;
