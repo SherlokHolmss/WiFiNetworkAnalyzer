@@ -2,6 +2,7 @@
 #include "../app/WiFiAnalyzerApp.h"
 #include <string>
 #include <iostream>
+
 namespace wifi {
     std::string Analyzer::getStrongestNetwork(const wifi::netWorkList &networks) {
         if (networks.empty()) return "Немає доступних мереж";
@@ -14,6 +15,7 @@ namespace wifi {
         }
         return strongestSSID;
     }
+
     std::string Analyzer::getMostSecureNetwork(const wifi::netWorkList &networks) {
         if (networks.empty()) return "Немає доступних мереж";
         int strongestSecure = networks[0].encryption;
@@ -53,6 +55,26 @@ namespace wifi {
             default:
                 return "Невідомо";
         }
+    }
+
+    void Analyzer::printSummary(const netWorkList &networks) {
+        int avarageStrength = 0;
+        for (const auto &network: networks) {
+            avarageStrength += network.signalStrength;
+        }
+        int listLenght = networks.size();
+        avarageStrength /= listLenght;
+        int securedNetworks = 0;
+        for (const auto &network: networks) {
+            if (network.encryption == 3) {
+                securedNetworks++;
+            }
+        }
+        std::cout << "<--------------------------->\n";
+        std::cout << "Знайдено мереж:" << listLenght << std::endl;
+        std::cout << "Середня сила сигналу:" << avarageStrength << std::endl;
+        std::cout << "Захищених мереж:" << securedNetworks << std::endl;
+        std::cout << "<--------------------------->\n";
     }
 
 

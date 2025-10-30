@@ -14,6 +14,7 @@ namespace wifi {
     class Analyzer {
     public:
         resultAnalyzeList analyze(const wifi::netWorkList &networks);
+        void printSummary(const netWorkList& networks);
         std::string getStrongestNetwork(const wifi::netWorkList &networks);
         std::string getMostSecureNetwork(const wifi::netWorkList &networks);
         std::string getMainCharacteristics(const wifi::netWorkList &networks);

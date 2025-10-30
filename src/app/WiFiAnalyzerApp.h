@@ -16,13 +16,19 @@ namespace wifi {
     class WifiAnalyzerApp {
     public:
         void run();
+
         WifiAnalyzerApp(IScanner *scanner, Analyzer *analyzer, ConsoleRenderer *console);
 
     private:
         IScanner *scanner;
         Analyzer *analyzer;
         ConsoleRenderer *renderer;
-        Logger *logger;
+        Logger logger;
+
+        netWorkList scannerSelection();
+        void renderSelection(const netWorkList& networks);
+        void additionalOptionsSelection(const netWorkList& networks);
+        void mainMenu();
     };
 }
 #endif //WIFINETWORKANALYZER_WIFIANALYZERAPP_H
