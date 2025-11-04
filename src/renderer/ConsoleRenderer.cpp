@@ -11,12 +11,27 @@
 namespace wifi {
     Logger logger;
 
+    int ConsoleRenderer::safeInput(int min, int max) {
+        int value;
+        while (true) {
+            if (std::cin >> value && value >= min && value <= max) {
+                return value;
+            }
+            else {
+                std::cin.clear();
+                std::cin.ignore(100, '\n');
+                std::cout << "Невірне введеня!" << std::endl;
+            }
+        }
+
+    }
+
+
     int ConsoleRenderer::mainMenu() {
         std::cout << "Головне меню" << std::endl;
         std::cout << "1.Почати роботу" << std::endl;
         std::cout << "2.Вийти" << std::endl;
-        int mode = 0;
-        std::cin >> mode;
+        int mode = safeInput(1, 2);
         return mode;
     }
 
@@ -28,8 +43,7 @@ namespace wifi {
         std::cout << "3.Повернутись у головне меню" << std::endl;
         std::cout << "4.Вийти" << std::endl;
         std::cout << "<--------------------------->\n";
-        int mode = 0;
-        std::cin >> mode;
+        int mode = safeInput(1, 4);
         return mode;
     }
 
@@ -61,8 +75,7 @@ namespace wifi {
         std::cout << "Оберіть режим:" << std::endl;
         std::cout << "1.Повне сканування" << std::endl;
         std::cout << "2.Коротке сканування" << std::endl;
-        int mode = 0;
-        std::cin >> mode;
+        int mode = safeInput(1, 2);
         return mode;
     }
 
@@ -70,8 +83,7 @@ namespace wifi {
         std::cout << "Оберіть режим сканеру" << std::endl;
         std::cout << "1.RealScanner" << std::endl;
         std::cout << "2.MockScanner" << std::endl;
-        int mode = 0;
-        std::cin >> mode;
+        int mode = safeInput(1, 2);
         return mode;
     }
 }

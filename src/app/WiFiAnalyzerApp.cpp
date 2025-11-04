@@ -23,7 +23,6 @@ namespace wifi {
         logger.info("Програма Запущена");
         WifiAnalyzerApp::mainMenu();
     }
-
     netWorkList WifiAnalyzerApp::scannerSelection() {
         netWorkList networks;
 
@@ -33,17 +32,20 @@ namespace wifi {
             switch (scannerChoice) {
                 case 1: {
                     realScanner real;
+                    logger.info("Користувач обрав realScanner");
                     networks = real.scanNetworks();
                     scannerChoiceLoop = false;
                     break;
                 }
                 case 2: {
                     scannerMock mock;
+                    logger.info("Користувач обрав scannerMock");
                     networks = mock.scanNetworks();
                     scannerChoiceLoop = false;
                     break;
                 }
                 default: {
+                    std::cout << "Невірний вибір сканеру!"<< std::endl;
                     logger.warning("Невірний вибір сканеру!");
                     break;
                 }
@@ -53,7 +55,7 @@ namespace wifi {
     }
 
 
-    void WifiAnalyzerApp::renderSelection(const netWorkList& networks) {
+    void WifiAnalyzerApp::renderSelection(const netWorkList &networks) {
         auto analyzed = analyzer->analyze(networks);
 
         bool renderChoiceLoop = true;
@@ -63,17 +65,20 @@ namespace wifi {
                 case 1: {
                     renderer->fullRender(analyzed);
                     analyzer->printSummary(networks);
+                    logger.info("Користувач обрав fullRender");
                     renderChoiceLoop = false;
                     break;
                 }
                 case 2: {
                     renderer->shortRender(analyzed);
                     analyzer->printSummary(networks);
+                    logger.info("Користувач обрав shortRender");
                     renderChoiceLoop = false;
                     break;
                 }
                 default: {
                     logger.warning("Невірний вибір рендеру!");
+                    std::cout << "Невірний вибір рендеру!"<< std::endl;
                     break;
                 }
             }
@@ -81,7 +86,7 @@ namespace wifi {
     }
 
 
-    void WifiAnalyzerApp::additionalOptionsSelection(const netWorkList& networks) {
+    void WifiAnalyzerApp::additionalOptionsSelection(const netWorkList &networks) {
         bool otherOptions = true;
 
         while (otherOptions) {
@@ -89,14 +94,16 @@ namespace wifi {
             switch (option) {
                 case 1: {
                     std::cout << "Найсильніша мережа: "
-                              << analyzer->getStrongestNetwork(networks)
-                              << std::endl;
+                            << analyzer->getStrongestNetwork(networks)
+                            << std::endl;
+                    logger.info("Знайдено найсильнішу мережу");
                     break;
                 }
                 case 2: {
                     std::cout << "Найзахищеніша мережа: "
-                              << analyzer->getMostSecureNetwork(networks)
-                              << std::endl;
+                            << analyzer->getMostSecureNetwork(networks)
+                            << std::endl;
+                    logger.info("Знайдено найзахищенішу мережу");
                     break;
                 }
                 case 3: {
@@ -105,6 +112,7 @@ namespace wifi {
                 }
                 default: {
                     logger.warning("Невірний вибір!");
+                    std::cout << "Невірний вибір"<< std::endl;
                     break;
                 }
             }
@@ -137,5 +145,4 @@ namespace wifi {
             }
         }
     }
-
 }

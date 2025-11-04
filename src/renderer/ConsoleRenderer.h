@@ -19,6 +19,7 @@ namespace wifi {
         int selectRenderMode();
         int additionalOptions();
 
+        int safeInput(int min, int max);
         void fullRender(const resultAnalyzeList &networks);
 
         void shortRender(const resultAnalyzeList &networks);

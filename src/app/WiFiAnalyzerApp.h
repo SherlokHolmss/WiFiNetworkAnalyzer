@@ -12,6 +12,7 @@
 #include "../renderer/ConsoleRenderer.h"
 #include "../utils/Logger.h";
 
+
 namespace wifi {
     class WifiAnalyzerApp {
     public:
@@ -26,6 +27,7 @@ namespace wifi {
         Logger logger;
 
         netWorkList scannerSelection();
+        // Давид, не забудь реалізувати фабрику сканерів!
         void renderSelection(const netWorkList& networks);
         void additionalOptionsSelection(const netWorkList& networks);
         void mainMenu();
