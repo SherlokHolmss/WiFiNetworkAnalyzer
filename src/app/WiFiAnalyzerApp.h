@@ -10,7 +10,7 @@
 #include "../analyzer/Analyzer.h"
 #include "../scanner/IScanner.h"
 #include "../renderer/ConsoleRenderer.h"
-#include "../utils/Logger.h";
+#include "../utils/Logger.h"
 
 
 namespace wifi {
@@ -25,7 +25,7 @@ namespace wifi {
         Analyzer *analyzer;
         ConsoleRenderer *renderer;
         Logger logger;
-
+        void processScanningFlow();
         netWorkList scannerSelection();
         // Давид, не забудь реалізувати фабрику сканерів!
         void renderSelection(const netWorkList& networks);

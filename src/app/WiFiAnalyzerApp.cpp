@@ -118,6 +118,11 @@ namespace wifi {
             }
         }
     }
+    void WifiAnalyzerApp::processScanningFlow() {
+        netWorkList networks = scannerSelection();
+        renderSelection(networks);
+        additionalOptionsSelection(networks);
+    }
 
 
     void WifiAnalyzerApp::mainMenu() {
@@ -128,9 +133,7 @@ namespace wifi {
 
             switch (mainChoice) {
                 case 1: {
-                    netWorkList networks = scannerSelection();
-                    renderSelection(networks);
-                    additionalOptionsSelection(networks);
+                    processScanningFlow();
                     break;
                 }
                 case 2: {

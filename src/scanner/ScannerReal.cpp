@@ -4,16 +4,19 @@
 #include "../utils/Types.h"
 #include "../scanner/ScannerReal.h"
 #include <iostream>
-
+#include <array>
+#include <cstdio>
+#include <memory>
+#include <stdexcept>
+#include <string>
 namespace wifi {
     netWorkList realScanner::scanNetworks() {
-        std::cout << "Scanning REAL networks..." << std::endl;
-        netWorkList networks = {
-            {"Home_WiFi", "AA:BB:CC:DD:EE:FF", -60, 11, 3},
-            {"Office_5G", "11:22:33:44:55:66", -40, 36, 4},
-            {"Guest_Net", "77:88:99:AA:BB:CC", -75, 6, 2}
+        netWorkList list = {
+            {"netis_42E5BC", "AA:BB:CC:11:22:33", -45, 6, 1},
+            {"Lisoka", "DD:EE:FF:44:55:66", -70, 11, 2},
+            {"Room 2.4G", "DD:EE:FF:57:8:9", -3, 5, 3},
+            {"Room 5G", "DD:FF:EE:45:3:6", -66, 20, 1}
         };
-        std::cout << "Знайдено - "<< networks.size() <<"Мереж" << std::endl;
-        return {};
+        return list;
     }
 }

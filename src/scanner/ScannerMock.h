@@ -10,12 +10,11 @@
 #include "../utils/Types.h"
 
 
-#endif //WIFINETWORKANALYZER_SCANNERMOCK_H
-
-
 namespace wifi {
     class scannerMock : public IScanner {
     public:
         netWorkList scanNetworks();
     };
 }
+
+#endif //WIFINETWORKANALYZER_SCANNERMOCK_H

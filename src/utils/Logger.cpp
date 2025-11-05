@@ -8,7 +8,7 @@
 #include <iomanip>
 
 namespace wifi {
-        std::string getCurrentTime() {
+    std::string getCurrentTime() {
         std::time_t now = std::time(nullptr);
         std::tm localTime{};
 #ifdef _WIN32
@@ -47,6 +47,4 @@ namespace wifi {
         std::cout << logLine << std::endl;
         writeToFile("ERROR", logLine);
     }
-
-
 }
