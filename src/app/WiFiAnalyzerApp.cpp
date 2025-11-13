@@ -12,6 +12,7 @@
 #include "../scanner/ScannerMock.h"
 #include "../scanner/ScannerReal.h"
 #include "../utils/Logger.h"
+#include "../utils/MenuOptions.h"
 
 namespace wifi {
     WifiAnalyzerApp::WifiAnalyzerApp(IScanner *scanner, Analyzer *analyzer, ConsoleRenderer *renderer)
@@ -28,16 +29,18 @@ namespace wifi {
 
         bool scannerChoiceLoop = true;
         while (scannerChoiceLoop) {
-            int scannerChoice = renderer->selectScannerMode();
+            int scannerChoiceInt = renderer->selectScannerMode();
+            auto scannerChoice = static_cast<ScannerMode>(scannerChoiceInt);
+
             switch (scannerChoice) {
-                case 1: {
+                case wifi::ScannerMode::Real: {
                     realScanner real;
                     logger.info("Користувач обрав realScanner");
                     networks = real.scanNetworks();
                     scannerChoiceLoop = false;
                     break;
                 }
-                case 2: {
+                case wifi::ScannerMode::Mock: {
                     scannerMock mock;
                     logger.info("Користувач обрав scannerMock");
                     networks = mock.scanNetworks();
@@ -60,16 +63,19 @@ namespace wifi {
 
         bool renderChoiceLoop = true;
         while (renderChoiceLoop) {
-            int renderChoice = renderer->selectRenderMode();
+            int renderChoiceInt = renderer->selectRenderMode();
+            auto renderChoice = static_cast<wifi::RenderMode>(renderChoiceInt);
+
+
             switch (renderChoice) {
-                case 1: {
+                case wifi::RenderMode::Full: {
                     renderer->fullRender(analyzed);
                     analyzer->printSummary(networks);
                     logger.info("Користувач обрав fullRender");
                     renderChoiceLoop = false;
                     break;
                 }
-                case 2: {
+                case wifi::RenderMode::Short: {
                     renderer->shortRender(analyzed);
                     analyzer->printSummary(networks);
                     logger.info("Користувач обрав shortRender");
@@ -90,23 +96,26 @@ namespace wifi {
         bool otherOptions = true;
 
         while (otherOptions) {
-            int option = renderer->additionalOptions();
+            int optionInt = renderer->additionalOptions();
+            auto option = static_cast<wifi::AdditionalOptions>(optionInt);
+
+
             switch (option) {
-                case 1: {
+                case wifi::AdditionalOptions::Strongest: {
                     std::cout << "Найсильніша мережа: "
                             << analyzer->getStrongestNetwork(networks)
                             << std::endl;
                     logger.info("Знайдено найсильнішу мережу");
                     break;
                 }
-                case 2: {
+                case wifi::AdditionalOptions::Securest: {
                     std::cout << "Найзахищеніша мережа: "
                             << analyzer->getMostSecureNetwork(networks)
                             << std::endl;
                     logger.info("Знайдено найзахищенішу мережу");
                     break;
                 }
-                case 3: {
+                case wifi::AdditionalOptions::Back: {
                     otherOptions = false;
                     break;
                 }
@@ -129,14 +138,15 @@ namespace wifi {
         bool eventLoop = true;
 
         while (eventLoop) {
-            int mainChoice = renderer->mainMenu();
+            int mainChoiceInt = renderer->mainMenu();
+            auto mainChoice = static_cast<wifi::MainMenuOption>(mainChoiceInt);
 
             switch (mainChoice) {
-                case 1: {
+                case wifi::MainMenuOption::ScanNetworks: {
                     processScanningFlow();
                     break;
                 }
-                case 2: {
+                case wifi::MainMenuOption::Exit: {
                     logger.info("Програма завершена користувачем.");
                     eventLoop = false;
                     break;

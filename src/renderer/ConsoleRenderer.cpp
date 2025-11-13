@@ -41,9 +41,8 @@ namespace wifi {
         std::cout << "1.Знайти найсильнішу мережу" << std::endl;
         std::cout << "2.Знайти найзахищенішу мережу" << std::endl;
         std::cout << "3.Повернутись у головне меню" << std::endl;
-        std::cout << "4.Вийти" << std::endl;
         std::cout << "<--------------------------->\n";
-        int mode = safeInput(1, 4);
+        int mode = safeInput(1, 3);
         return mode;
     }
 

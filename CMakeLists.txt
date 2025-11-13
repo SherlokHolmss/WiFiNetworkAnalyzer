@@ -19,4 +19,5 @@ add_executable(WiFiNetworkAnalyzer src/main.cpp
         src/utils/Logger.h
         src/utils/Logger.cpp
         src/utils/Constants.h
+        src/utils/MenuOptions.h
 )
