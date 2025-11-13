@@ -33,19 +33,28 @@ namespace wifi {
 
 
     void Logger::info(const std::string &msg) {
-        std::string logLine = "[INFO] " + msg;
+        std::ostringstream oss;
+        oss << "[INFO] " << msg;
+        std::string logLine = oss.str();
+
         std::cout << logLine << std::endl;
         writeToFile("info", logLine);
     }
 
     void Logger::warning(const std::string &msg) {
-        std::string logLine = "[WARNING] " + msg;
+        std::ostringstream oss;
+        oss << "[WARNING] " << msg;
+        std::string logLine = oss.str();
+
         std::cout << logLine << std::endl;
         writeToFile("WARNING", logLine);
     }
 
     void Logger::error(const std::string &msg) {
-        std::string logLine = "[ERROR] " + msg;
+        std::ostringstream oss;
+        oss << "[ERROR] " << msg;
+        std::string logLine = oss.str();
+
         std::cout << logLine << std::endl;
         writeToFile("ERROR", logLine);
     }
