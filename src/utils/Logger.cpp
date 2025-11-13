@@ -7,6 +7,8 @@
 #include <ctime>
 #include <iomanip>
 
+#include "Constants.h"
+
 namespace wifi {
     std::string getCurrentTime() {
         std::time_t now = std::time(nullptr);
@@ -22,7 +24,7 @@ namespace wifi {
     }
 
     void writeToFile(const std::string &level, const std::string &msg) {
-        std::ofstream logFile("logs.txt", std::ios::app);
+        std::ofstream logFile(wifi::constants::log_file_path, std::ios::app);
         if (logFile.is_open()) {
             logFile << "[" << getCurrentTime() << "] "
                     << "[" << level << "] " << msg << std::endl;

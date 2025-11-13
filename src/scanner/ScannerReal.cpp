@@ -9,14 +9,23 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+
+#include "../utils/Constants.h"
+
 namespace wifi {
     netWorkList realScanner::scanNetworks() {
-        netWorkList list = {
-            {"netis_42E5BC", "AA:BB:CC:11:22:33", -45, 6, 1},
-            {"Lisoka", "DD:EE:FF:44:55:66", -70, 11, 2},
-            {"Room 2.4G", "DD:EE:FF:57:8:9", -3, 5, 3},
-            {"Room 5G", "DD:FF:EE:45:3:6", -66, 20, 1}
-        };
-        return list;
+        netWorkList result;
+        std::string command = wifi::constants::netsh_command;
+        std::array<char, wifi::constants::buffer_size> buffer;
+        std::string output;
+
+        std::unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(command.c_str(), "r"), _pclose);
+        if (!pipe) throw std::runtime_error("Не вдалося виконати команду netsh!");
+
+        while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+            output += buffer.data();
+        }
+        std::cout << output;
+        return result;
     }
 }
