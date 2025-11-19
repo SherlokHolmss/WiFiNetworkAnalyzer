@@ -72,7 +72,7 @@ namespace wifi {
         }
         std::cout << "<--------------------------->\n";
         std::cout << "Знайдено мереж:" << listLenght << std::endl;
-        std::cout << "Середня сила сигналу:" << avarageStrength << std::endl;
+        std::cout << "Середня сила сигналу:" << avarageStrength <<"dB" << std::endl;
         std::cout << "Захищених мереж:" << securedNetworks << std::endl;
         std::cout << "<--------------------------->\n";
     }

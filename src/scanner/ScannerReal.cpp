@@ -1,6 +1,5 @@
-//
-// Created by USER on 24.10.2025.
-//
+// ScannerReal.cpp
+// Created by USER on ...
 #include "../utils/Types.h"
 #include "../scanner/ScannerReal.h"
 #include <iostream>
@@ -9,10 +8,38 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <sstream>
+#include <algorithm>
+#include <cctype>
 
 #include "../utils/Constants.h"
 
 namespace wifi {
+    static inline std::string trim_left_right(std::string s) {
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+            return !std::isspace(ch);
+        }));
+        s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+            return !std::isspace(ch);
+        }).base(), s.end());
+        return s;
+    }
+
+    static inline std::string to_lower_copy(const std::string &s) {
+        std::string r = s;
+        std::transform(r.begin(), r.end(), r.begin(), [](unsigned char c) { return std::tolower(c); });
+        return r;
+    }
+
+    static int map_encryption(const std::string &auth) {
+        std::string a = to_lower_copy(auth);
+        if (a.find("WPA3") != std::string::npos) return 4;
+        if (a.find("WPA2") != std::string::npos) return 3;
+        if (a.find("WPA") != std::string::npos) return 2;
+        if (a.find("WEP") != std::string::npos) return 1;
+        return 0;
+    }
+
     netWorkList realScanner::scanNetworks() {
         netWorkList result;
         std::string command = wifi::constants::netsh_command;
@@ -20,70 +47,107 @@ namespace wifi {
         std::string output;
 
         std::unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(command.c_str(), "r"), _pclose);
-        if (!pipe) throw std::runtime_error("Не вдалося виконати команду netsh!");
+        if (!pipe) {
+            throw std::runtime_error("Не вдалося виконати команду netsh!");
+        }
 
-        while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        while (fgets(buffer.data(), static_cast<int>(buffer.size()), pipe.get()) != nullptr) {
             output += buffer.data();
         }
+
+
         std::stringstream ss(output);
         std::string line;
 
-        netWorkList current;
-        bool inBlock = false;
+        wifi::wifiNetwork current{};
+        bool in_block = false;
 
         while (std::getline(ss, line)) {
-            // Прибираємо пробіли з початку
-            while (!line.empty() && line[0] == ' ') line.erase(0, 1);
+            line = trim_left_right(line);
+            if (line.empty()) continue;
 
-            // Знайшли новий SSID
-            if (line.starts_with("SSID ")) {
-                if (inBlock && !current.ssid.empty()) {
+            if (line.rfind("SSID ", 0) == 0) {
+                if (in_block && !current.ssid.empty()) {
                     result.push_back(current);
+                    current = wifiNetwork{};
                 }
-
-                current = netWorkList{};
-                inBlock = true;
-
-                auto pos = line.find(":");
+                in_block = true;
+                auto pos = line.find(':');
                 if (pos != std::string::npos) {
-                    current.ssid = line.substr(pos + 1);
-                    // видаляємо пробіли
-                    while (!current.ssid.empty() && current.ssid[0] == ' ')
-                        current.ssid.erase(0, 1);
+                    std::string ssid_val = line.substr(pos + 1);
+                    current.ssid = trim_left_right(ssid_val);
+                } else {
+                    current.ssid.clear();
                 }
                 continue;
             }
 
-            // Signal
-            if (line.starts_with("Signal")) {
-                auto pos = line.find(":");
+
+            if (line.rfind("BSSID", 0) == 0) {
+                auto pos = line.find(':');
                 if (pos != std::string::npos) {
-                    std::string val = line.substr(pos + 1);
-                    val.erase(remove(val.begin(), val.end(), '%'), val.end());
-                    current.signal = std::stoi(val);
+                    std::string bssid_val = line.substr(pos + 1);
+                    current.bssid = trim_left_right(bssid_val);
                 }
                 continue;
             }
 
-            // Authentication
-            if (line.starts_with("Authentication")) {
-                auto pos = line.find(":");
+
+            if (to_lower_copy(line).rfind("signal", 0) == 0) {
+                auto pos = line.find(':');
                 if (pos != std::string::npos) {
-                    std::string val = line.substr(pos + 1);
-                    while (!val.empty() && val[0] == ' ')
-                        val.erase(0, 1);
-                    current.encryption = mapEncryption(val);
+                    std::string val = trim_left_right(line.substr(pos + 1));
+                    val.erase(std::remove(val.begin(), val.end(), '%'), val.end());
+                    try {
+                        current.signalStrength = std::stoi(val);
+                    } catch (...) {
+                        current.signalStrength = 0;
+                    }
+                }
+                continue;
+            }
+
+            if (to_lower_copy(line).rfind("channel", 0) == 0) {
+                auto pos = line.find(':');
+                if (pos != std::string::npos) {
+                    std::string val = trim_left_right(line.substr(pos + 1));
+                    try {
+                        current.channel = std::stoi(val);
+                    } catch (...) {
+                        current.channel = 0;
+                    }
+                }
+                continue;
+            }
+            if (to_lower_copy(line).rfind("authentication", 0) == 0 ||
+                to_lower_copy(line).rfind("encryption", 0) == 0) {
+                auto pos = line.find(':');
+                if (pos != std::string::npos) {
+                    std::string val = trim_left_right(line.substr(pos + 1));
+                    current.encryption = map_encryption(val);
                 }
                 continue;
             }
         }
 
-        // додаємо останню мережу
-        if (inBlock && !current.ssid.empty()) {
+        if (in_block && !current.ssid.empty()) {
             result.push_back(current);
         }
 
-        std::cout << output;
-        return result;
+        netWorkList filtered;
+        for (const auto &n: result) {
+            if (n.ssid.empty()) continue;
+            bool dup = false;
+            for (const auto &f: filtered) {
+                if (f.ssid == n.ssid) {
+                    dup = true;
+                    break;
+                }
+            }
+            if (!dup) filtered.push_back(n);
+        }
+
+
+        return filtered;
     }
 }
