@@ -12,16 +12,20 @@
 
 namespace wifi {
     class ConsoleRenderer {
+    private:
+        void write(std::ostream& out, const std::string& text);
+        void writeLine(std::ostream& out, const std::string& text);
+        void writeDivider(std::ostream& out);
+
     public:
-        int mainMenu();
-
-        int selectScannerMode();
-        int selectRenderMode();
-        int additionalOptions();
-
         int safeInput(int min, int max);
-        void fullRender(const resultAnalyzeList &networks);
 
-        void shortRender(const resultAnalyzeList &networks);
+        int mainMenu(std::ostream& out);
+        int additionalOptions(std::ostream& out);
+        int selectRenderMode(std::ostream& out);
+        int selectScannerMode(std::ostream& out);
+
+        void shortRender(const resultAnalyzeList& results, std::ostream& out);
+        void fullRender(const resultAnalyzeList& results, std::ostream& out);
     };
 }

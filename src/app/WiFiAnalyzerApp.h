@@ -27,7 +27,6 @@ namespace wifi {
         Logger logger;
         void processScanningFlow();
         netWorkList scannerSelection();
-        // Давид, не забудь реалізувати фабрику сканерів!
         void renderSelection(const netWorkList& networks);
         void additionalOptionsSelection(const netWorkList& networks);
         void mainMenu();

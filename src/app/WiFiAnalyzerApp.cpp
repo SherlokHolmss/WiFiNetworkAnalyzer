@@ -29,7 +29,7 @@ namespace wifi {
 
         bool scannerChoiceLoop = true;
         while (scannerChoiceLoop) {
-            int scannerChoiceInt = renderer->selectScannerMode();
+            int scannerChoiceInt = renderer->selectScannerMode(std::cout);
             auto scannerChoice = static_cast<ScannerMode>(scannerChoiceInt);
 
             switch (scannerChoice) {
@@ -63,20 +63,20 @@ namespace wifi {
 
         bool renderChoiceLoop = true;
         while (renderChoiceLoop) {
-            int renderChoiceInt = renderer->selectRenderMode();
+            int renderChoiceInt = renderer->selectRenderMode(std::cout);
             auto renderChoice = static_cast<wifi::RenderMode>(renderChoiceInt);
 
 
             switch (renderChoice) {
                 case wifi::RenderMode::Full: {
-                    renderer->fullRender(analyzed);
+                    renderer->fullRender(analyzed, std::cout);
                     analyzer->printSummary(networks);
                     logger.info("Користувач обрав fullRender");
                     renderChoiceLoop = false;
                     break;
                 }
                 case wifi::RenderMode::Short: {
-                    renderer->shortRender(analyzed);
+                    renderer->shortRender(analyzed, std::cout);
                     analyzer->printSummary(networks);
                     logger.info("Користувач обрав shortRender");
                     renderChoiceLoop = false;
@@ -96,7 +96,7 @@ namespace wifi {
         bool otherOptions = true;
 
         while (otherOptions) {
-            int optionInt = renderer->additionalOptions();
+            int optionInt = renderer->additionalOptions(std::cout);
             auto option = static_cast<wifi::AdditionalOptions>(optionInt);
 
 
@@ -138,7 +138,7 @@ namespace wifi {
         bool eventLoop = true;
 
         while (eventLoop) {
-            int mainChoiceInt = renderer->mainMenu();
+            int mainChoiceInt = renderer->mainMenu(std::cout);
             auto mainChoice = static_cast<wifi::MainMenuOption>(mainChoiceInt);
 
             switch (mainChoice) {
