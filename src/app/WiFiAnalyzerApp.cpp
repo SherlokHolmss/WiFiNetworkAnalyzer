@@ -137,6 +137,7 @@ namespace wifi {
     void WifiAnalyzerApp::mainMenu() {
         bool eventLoop = true;
 
+
         while (eventLoop) {
             int mainChoiceInt = renderer->mainMenu(std::cout);
             auto mainChoice = static_cast<wifi::MainMenuOption>(mainChoiceInt);
