@@ -31,18 +31,18 @@ namespace wifi {
     std::string Analyzer::analyzeSignal(int strength) {
         if (strength < -60) {
             std::string res;
-            res = "Сигнал слабкий : " + std::to_string(strength) + "dB";
+            res = "Сигнал слабкий : " + std::to_string(strength) + "%";
             return res;
         }
 
         else if (strength < -40) {
             std::string res;
-            res = "Сигнал середній : " + std::to_string(strength) + "dB";
+            res = "Сигнал середній : " + std::to_string(strength) + "%";
             return res;
         }
         else {
             std::string res;
-            res = "Сигнал сильний : " + std::to_string(strength) + "dB";
+            res = "Сигнал сильний : " + std::to_string(strength) + "%";
             return res;
         }
     }
@@ -82,7 +82,7 @@ namespace wifi {
         }
         std::cout << "<--------------------------->\n";
         std::cout << "Знайдено мереж:" << listLenght << std::endl;
-        std::cout << "Середня сила сигналу:" << avarageStrength <<"dB" << std::endl;
+        std::cout << "Середня сила сигналу:" << avarageStrength <<"%" << std::endl;
         std::cout << "Захищених мереж:" << securedNetworks << std::endl;
         std::cout << "<--------------------------->\n";
     }
