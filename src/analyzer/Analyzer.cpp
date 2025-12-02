@@ -29,12 +29,22 @@ namespace wifi {
     }
 
     std::string Analyzer::analyzeSignal(int strength) {
-        if (strength < -60)
-            return "Сигнал слабкий";
-        else if (strength < -40)
-            return "Сигнал середній";
-        else
-            return "Сигнал сильний";
+        if (strength < -60) {
+            std::string res;
+            res = "Сигнал слабкий : " + std::to_string(strength) + "dB";
+            return res;
+        }
+
+        else if (strength < -40) {
+            std::string res;
+            res = "Сигнал середній : " + std::to_string(strength) + "dB";
+            return res;
+        }
+        else {
+            std::string res;
+            res = "Сигнал сильний : " + std::to_string(strength) + "dB";
+            return res;
+        }
     }
 
     std::string Analyzer::analyzeChannel(int channel) {
