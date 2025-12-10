@@ -7,7 +7,6 @@
 #include "../utils/Logger.h"
 
 namespace wifi {
-    Logger logger;
 
     void ConsoleRenderer::write(std::ostream& out, const std::string& text) {
         out << text;

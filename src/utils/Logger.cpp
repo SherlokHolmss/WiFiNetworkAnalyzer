@@ -1,61 +1,74 @@
-//
-// Created by USER on 25.10.2025.
-//
 #include "Logger.h"
-#include <fstream>
+#include "Constants.h"
+
 #include <iostream>
+#include <sstream>
+#include <chrono>
 #include <ctime>
 #include <iomanip>
 
-#include "Constants.h"
-
 namespace wifi {
-    std::string getCurrentTime() {
-        std::time_t now = std::time(nullptr);
+    static std::string getCurrentTime() {
+        auto now = std::chrono::system_clock::now();
+        std::time_t t = std::chrono::system_clock::to_time_t(now);
         std::tm localTime{};
+
 #ifdef _WIN32
-        localtime_s(&localTime, &now);
+        localtime_s(&localTime, &t);
 #else
-        localtime_r(&now, &localTime);
+        localtime_r(&t, &localTime);
 #endif
+
         std::ostringstream oss;
         oss << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S");
         return oss.str();
     }
 
-    void writeToFile(const std::string &level, const std::string &msg) {
-        std::ofstream logFile(wifi::constants::log_file_path, std::ios::app);
-        if (logFile.is_open()) {
-            logFile << "[" << getCurrentTime() << "] "
-                    << "[" << level << "] " << msg << std::endl;
+    Logger &Logger::instance() {
+        static Logger instance;
+        return instance;
+    }
+
+    Logger::Logger() : outStream_(&std::cout) {
+        file_.open(wifi::constants::log_file_path, std::ios::app);
+
+        if (!file_.is_open()) {
+            std::cerr << "Не вдалося відкрити файл логів!" << std::endl;
         }
     }
 
+    Logger::~Logger() {
+        if (file_.is_open()) file_.close();
+    }
+
+    void Logger::setOutputStream(std::ostream &out) {
+        std::lock_guard<std::mutex> g(mtx_);
+        outStream_ = &out;
+    }
+
+    void Logger::log(const std::string &level, const std::string &msg) {
+        std::lock_guard<std::mutex> g(mtx_);
+
+        std::string line = "[" + getCurrentTime() + "] [" + level + "] " + msg;
+
+        if (outStream_) {
+            (*outStream_) << line << std::endl;
+        }
+
+        if (file_.is_open()) {
+            file_ << line << std::endl;
+        }
+    }
 
     void Logger::info(const std::string &msg) {
-        std::ostringstream oss;
-        oss << "[INFO] " << msg;
-        std::string logLine = oss.str();
-
-        std::cout << logLine << std::endl;
-        writeToFile("info", logLine);
+        log("INFO", msg);
     }
 
     void Logger::warning(const std::string &msg) {
-        std::ostringstream oss;
-        oss << "[WARNING] " << msg;
-        std::string logLine = oss.str();
-
-        std::cout << logLine << std::endl;
-        writeToFile("WARNING", logLine);
+        log("WARNING", msg);
     }
 
     void Logger::error(const std::string &msg) {
-        std::ostringstream oss;
-        oss << "[ERROR] " << msg;
-        std::string logLine = oss.str();
-
-        std::cout << logLine << std::endl;
-        writeToFile("ERROR", logLine);
+        log("ERROR", msg);
     }
-}
+} // namespace wifi

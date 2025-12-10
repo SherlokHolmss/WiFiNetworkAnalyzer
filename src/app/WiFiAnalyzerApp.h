@@ -24,11 +24,15 @@ namespace wifi {
         IScanner *scanner;
         Analyzer *analyzer;
         ConsoleRenderer *renderer;
-        Logger logger;
+
         void processScanningFlow();
+
         netWorkList scannerSelection();
-        void renderSelection(const netWorkList& networks);
-        void additionalOptionsSelection(const netWorkList& networks);
+
+        void renderSelection(const netWorkList &networks);
+
+        void additionalOptionsSelection(const netWorkList &networks);
+
         void mainMenu();
     };
 }

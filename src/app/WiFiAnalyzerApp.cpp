@@ -16,14 +16,18 @@
 
 namespace wifi {
     WifiAnalyzerApp::WifiAnalyzerApp(IScanner *scanner, Analyzer *analyzer, ConsoleRenderer *renderer)
-        : scanner(scanner), analyzer(analyzer), renderer(renderer) {
+        : scanner(scanner),
+          analyzer(analyzer),
+          renderer(renderer)
+    {
     }
 
     void WifiAnalyzerApp::run() {
-        Logger logger;
-        logger.info("Програма Запущена");
+        Logger::instance().info("Сканування запущено");
+
         WifiAnalyzerApp::mainMenu();
     }
+
     netWorkList WifiAnalyzerApp::scannerSelection() {
         netWorkList networks;
 
@@ -35,21 +39,21 @@ namespace wifi {
             switch (scannerChoice) {
                 case wifi::ScannerMode::Real: {
                     realScanner real;
-                    logger.info("Користувач обрав realScanner");
+                    Logger::instance().info("Користувач обрав realScanner");
                     networks = real.scanNetworks();
                     scannerChoiceLoop = false;
                     break;
                 }
                 case wifi::ScannerMode::Mock: {
                     scannerMock mock;
-                    logger.info("Користувач обрав scannerMock");
+                    Logger::instance().info("Користувач обрав scannerMock");
                     networks = mock.scanNetworks();
                     scannerChoiceLoop = false;
                     break;
                 }
                 default: {
-                    std::cout << "Невірний вибір сканеру!"<< std::endl;
-                    logger.warning("Невірний вибір сканеру!");
+                    std::cout << "Невірний вибір сканеру!" << std::endl;
+                    Logger::instance().warning("Невірний вибір сканеру!");
                     break;
                 }
             }
@@ -71,20 +75,20 @@ namespace wifi {
                 case wifi::RenderMode::Full: {
                     renderer->fullRender(analyzed, std::cout);
                     analyzer->printSummary(networks);
-                    logger.info("Користувач обрав fullRender");
+                    Logger::instance().info("Користувач обрав fullRender");
                     renderChoiceLoop = false;
                     break;
                 }
                 case wifi::RenderMode::Short: {
                     renderer->shortRender(analyzed, std::cout);
                     analyzer->printSummary(networks);
-                    logger.info("Користувач обрав shortRender");
+                    Logger::instance().info("Користувач обрав shortRender");
                     renderChoiceLoop = false;
                     break;
                 }
                 default: {
-                    logger.warning("Невірний вибір рендеру!");
-                    std::cout << "Невірний вибір рендеру!"<< std::endl;
+                    Logger::instance().warning("Невірний вибір рендеру!");
+                    std::cout << "Невірний вибір рендеру!" << std::endl;
                     break;
                 }
             }
@@ -105,14 +109,14 @@ namespace wifi {
                     std::cout << "Найсильніша мережа: "
                             << analyzer->getStrongestNetwork(networks)
                             << std::endl;
-                    logger.info("Знайдено найсильнішу мережу");
+                    Logger::instance().info("Знайдено найсильнішу мережу");
                     break;
                 }
                 case wifi::AdditionalOptions::Securest: {
                     std::cout << "Найзахищеніша мережа: "
                             << analyzer->getMostSecureNetwork(networks)
                             << std::endl;
-                    logger.info("Знайдено найзахищенішу мережу");
+                    Logger::instance().info("Знайдено найзахищенішу мережу");
                     break;
                 }
                 case wifi::AdditionalOptions::Back: {
@@ -120,13 +124,14 @@ namespace wifi {
                     break;
                 }
                 default: {
-                    logger.warning("Невірний вибір!");
-                    std::cout << "Невірний вибір"<< std::endl;
+                    Logger::instance().warning("Невірний вибір!");
+                    std::cout << "Невірний вибір" << std::endl;
                     break;
                 }
             }
         }
     }
+
     void WifiAnalyzerApp::processScanningFlow() {
         netWorkList networks = scannerSelection();
         renderSelection(networks);
@@ -148,12 +153,12 @@ namespace wifi {
                     break;
                 }
                 case wifi::MainMenuOption::Exit: {
-                    logger.info("Програма завершена користувачем.");
+                    Logger::instance().info("Програма завершена користувачем.");
                     eventLoop = false;
                     break;
                 }
                 default: {
-                    logger.warning("Невірний вибір!");
+                    Logger::instance().warning("Невірний вибір!");
                     break;
                 }
             }

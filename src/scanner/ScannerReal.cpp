@@ -11,7 +11,6 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
-#include <cctype>
 
 namespace wifi {
     netWorkList realScanner::scanNetworks() {
